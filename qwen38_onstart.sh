@@ -19,6 +19,14 @@ echo "=== $(date) onstart ==="
 die() { echo "[ERR] $*"; exit 1; }
 [[ "$(uname -m)" == "aarch64" ]] || echo "[WARN] not aarch64 - these patches target GB10"
 
+# Public-template safety: never serve an open or default-keyed endpoint.
+[[ -n "${HF_TOKEN:-}" ]] || unset HF_TOKEN
+if [[ -z "${API_KEY:-}" || "$API_KEY" == "CHANGE_ME" ]]; then
+    [[ -s $W/api_key ]] || python3 -c "import secrets;print('sk-'+secrets.token_urlsafe(24))" > "$W/api_key"
+    API_KEY=$(cat "$W/api_key"); chmod 600 "$W/api_key"
+    echo "[INFO] no API_KEY set - generated one, saved in $W/api_key"
+fi
+
 # 1. Repo
 [[ -d $REPO/.git ]] || git clone --depth 1 \
     https://github.com/MiaAI-Lab/Qwen3.8-Flash-Next-Single-DGX-Spark "$REPO" || die "clone failed"
