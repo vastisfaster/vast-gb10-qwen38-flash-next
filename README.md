@@ -31,7 +31,7 @@ Everything lives under `/workspace/qwen38`. The script is safe to re-run; finish
 On-start script (replace `<COMMIT_SHA>` with a commit of this repo, so the template always runs a version you can read):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/<USER>/<REPO>/<COMMIT_SHA>/qwen38_onstart.sh -o /root/qwen38_onstart.sh
+curl -fsSL https://raw.githubusercontent.com/vastisfaster/vast-gb10-qwen38-flash-next/bfc82c755b36d1d24b6633e3b8a47f6339203bfd/qwen38_onstart.sh -o /root/qwen38_onstart.sh
 nohup bash /root/qwen38_onstart.sh >/dev/null 2>&1 &
 ```
 
